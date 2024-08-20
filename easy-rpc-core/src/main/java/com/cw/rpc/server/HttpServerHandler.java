@@ -9,7 +9,6 @@ import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
-import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Method;
 
@@ -24,6 +23,7 @@ public class HttpServerHandler implements Handler<HttpServerRequest> {
 
     @Override
     public void handle(HttpServerRequest request) {
+
         //指定序列化器
         final Serializer serializer = new JdkSerializer();
         //记录日志

@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/ex-consumer/pom.xml" />
         <option value="$PROJECT_DIR$/ex-provider/pom.xml" />
         <option value="$PROJECT_DIR$/cw-easy-rpc/pom.xml" />
+        <option value="$PROJECT_DIR$/easy-rpc-core/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

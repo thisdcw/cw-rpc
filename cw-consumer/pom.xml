@@ -19,8 +19,8 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.cw.rpc</groupId>
-            <artifactId>easy-rpc</artifactId>
+            <groupId>com.cw.rpc.core</groupId>
+            <artifactId>easy-rpc-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
