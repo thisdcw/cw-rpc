@@ -41,7 +41,7 @@ public class RpcApplication {
     }
 
     /**
-     * 获取配置
+     * 获取配置(双检索单例模式)
      *
      * @return
      */

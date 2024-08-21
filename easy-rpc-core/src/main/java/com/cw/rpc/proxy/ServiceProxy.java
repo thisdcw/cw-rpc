@@ -2,6 +2,7 @@ package com.cw.rpc.proxy;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import com.cw.rpc.RpcApplication;
 import com.cw.rpc.model.RpcRequest;
 import com.cw.rpc.model.RpcResponse;
 import com.cw.rpc.serializer.JdkSerializer;
@@ -33,7 +34,7 @@ public class ServiceProxy implements InvocationHandler {
             byte[] bodyBytes = serializer.serialize(rpcRequest);
             //发送请求
             //todo 注意,这里地址被硬编码了(需要注册中心和服务发现机制解决)
-            try (HttpResponse httpResponse = HttpRequest.post("http://localhost:2000").body(bodyBytes).execute()) {
+            try (HttpResponse httpResponse = HttpRequest.post("http://" + RpcApplication.getRpcConfig().getHost() + ":" + RpcApplication.getRpcConfig().getPort()).body(bodyBytes).execute()) {
                 byte[] result = httpResponse.bodyBytes();
 
                 //反序列化

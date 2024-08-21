@@ -4,6 +4,7 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import com.cw.common.model.User;
 import com.cw.common.service.UserService;
+import com.cw.rpc.RpcApplication;
 import com.cw.rpc.model.RpcRequest;
 import com.cw.rpc.model.RpcResponse;
 import com.cw.rpc.serializer.JdkSerializer;
@@ -36,7 +37,7 @@ public class UserServiceProxy implements UserService {
         try {
             byte[] bodyBytes = serializer.serialize(rpcRequest);
             byte[] result;
-            try (HttpResponse httpResponse = HttpRequest.post("http://localhost:2000").body(bodyBytes).execute()) {
+            try (HttpResponse httpResponse = HttpRequest.post("http://" + RpcApplication.getRpcConfig().getHost() + ":" + RpcApplication.getRpcConfig().getPort()).body(bodyBytes).execute()) {
                 result = httpResponse.bodyBytes();
             }
             RpcResponse rpcResponse = serializer.deserialize(result, RpcResponse.class);
