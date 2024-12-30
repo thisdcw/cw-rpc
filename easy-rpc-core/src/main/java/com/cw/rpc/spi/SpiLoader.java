@@ -57,7 +57,6 @@ public class SpiLoader {
      */
     public static void loadAll() {
         log.info("加载所有 SPI");
-        System.out.println("加载所有 SPI");
         for (Class<?> aClass : LOAD_CLASS_LIST) {
             load(aClass);
         }
@@ -88,8 +87,7 @@ public class SpiLoader {
                 throw new RuntimeException(errMsg);
             }
         }
-        System.out.println("成功获取 => " + implClassName);
-        return (T) instanceCache.get(implClass);
+        return (T) instanceCache.get(implClassName);
     }
 
     /**
