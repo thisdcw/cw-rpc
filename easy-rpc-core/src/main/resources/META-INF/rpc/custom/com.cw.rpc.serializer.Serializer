@@ -1,2 +1,0 @@
-json=com.cw.rpc.serializer.JsonSerializer
-kryo=com.cw.rpc.serializer.KryoSerializer

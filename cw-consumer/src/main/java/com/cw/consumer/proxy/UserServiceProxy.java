@@ -4,12 +4,11 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import com.cw.common.model.User;
 import com.cw.common.service.UserService;
-import com.cw.rpc.RpcApplication;
-import com.cw.rpc.model.RpcRequest;
-import com.cw.rpc.model.RpcResponse;
-import com.cw.rpc.serializer.JdkSerializer;
-import com.cw.rpc.serializer.Serializer;
-import com.cw.rpc.serializer.SerializerFactory;
+import com.cw.core.RpcApplication;
+import com.cw.core.model.RpcRequest;
+import com.cw.core.model.RpcResponse;
+import com.cw.core.serializer.JdkSerializer;
+import com.cw.core.serializer.Serializer;
 
 import java.io.IOException;
 

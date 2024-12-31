@@ -1,0 +1,2 @@
+jdk=com.cw.core.serializer.JdkSerializer
+hessian=com.cw.core.serializer.HessianSerializer

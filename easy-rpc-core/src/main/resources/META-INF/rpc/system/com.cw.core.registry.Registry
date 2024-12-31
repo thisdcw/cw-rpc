@@ -1,0 +1,2 @@
+etcd=com.cw.core.registry.EtcdRegistry
+zookeeper=com.cw.core.registry.ZkRegistry

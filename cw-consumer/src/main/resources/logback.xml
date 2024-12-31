@@ -2,10 +2,10 @@
 <configuration>
 
     <!-- 定义日志文件的路径 -->
-    <property name="LOG_PATH" value="easy-rpc-core/logs"/>
+    <property name="LOG_PATH" value="cw-consumer/logs"/>
     <property name="LOG_FILE" value="${LOG_PATH}/common.log"/>
     <property name="LOG_ARCHIVE" value="${LOG_PATH}/archive/"/>
-    <property name="BUSINESS_LOG_FILE" value="${LOG_PATH}/rpc.log"/>
+    <property name="BUSINESS_LOG_FILE" value="${LOG_PATH}/consumer.log"/>
 
     <!-- 控制台日志输出 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -53,7 +53,7 @@
 
 
     <!-- 指定名称为 "businessLog" 的 logger 配置 -->
-    <logger name="rpcLog" level="INFO">
+    <logger name="consumer" level="INFO">
         <!-- 业务日志文件输出 -->
         <appender-ref ref="RPCLOG"/>
     </logger>

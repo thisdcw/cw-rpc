@@ -1,15 +1,15 @@
-package com.cw.rpc.server;
+package com.cw.core.server;
 
-import com.cw.rpc.model.RpcRequest;
-import com.cw.rpc.model.RpcResponse;
-import com.cw.rpc.registry.LocalRegistry;
-import com.cw.rpc.serializer.JdkSerializer;
-import com.cw.rpc.serializer.Serializer;
+import com.cw.core.RpcApplication;
+import com.cw.core.model.RpcRequest;
+import com.cw.core.registry.LocalRegistry;
+import com.cw.core.serializer.SerializerFactory;
+import com.cw.core.model.RpcResponse;
+import com.cw.core.serializer.Serializer;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,17 +21,19 @@ import java.lang.reflect.Method;
  * @author thisdcw-com
  * @date 2024/8/20 16:13
  */
-@Slf4j
 public class HttpServerHandler implements Handler<HttpServerRequest> {
 
     private static final Logger rLog = LoggerFactory.getLogger("rpcLog");
 
     @Override
     public void handle(HttpServerRequest request) {
+
         //指定序列化器
-        final Serializer serializer = new JdkSerializer();
+        final Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
         //记录日志
         rLog.info("Request received: {} {}", request.method(), request.uri());
+        System.out.println();
+
         //异步处理HTTP请求
         request.bodyHandler(body -> {
             byte[] bytes = body.getBytes();

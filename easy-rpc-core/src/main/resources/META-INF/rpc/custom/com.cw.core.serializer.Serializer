@@ -1,0 +1,2 @@
+json=com.cw.core.serializer.JsonSerializer
+kryo=com.cw.core.serializer.KryoSerializer
