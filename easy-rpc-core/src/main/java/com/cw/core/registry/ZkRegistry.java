@@ -39,8 +39,10 @@ public class ZkRegistry implements Registry {
     /**
      * 注册中心服务缓存
      */
+    @Deprecated
     public final RegistryServiceCache registryServiceCache = new RegistryServiceCache();
 
+    public final RegistryServiceMultiCache registryServiceMultiCache = new RegistryServiceMultiCache();
     /**
      * 正在监听的key集合
      */
@@ -100,7 +102,7 @@ public class ZkRegistry implements Registry {
     @Override
     public List<ServiceMetaInfo> serviceDiscovery(String serviceKey) {
         rpcLog.info("服务发现: {}", serviceKey);
-        List<ServiceMetaInfo> serviceMetaInfos = registryServiceCache.readCache();
+        List<ServiceMetaInfo> serviceMetaInfos = registryServiceMultiCache.readCache(serviceKey);
         if (serviceMetaInfos != null) {
             rpcLog.info("查询缓存");
             return serviceMetaInfos;
@@ -110,7 +112,7 @@ public class ZkRegistry implements Registry {
             Collection<ServiceInstance<ServiceMetaInfo>> serviceInstances = serviceDiscovery.queryForInstances(serviceKey);
             List<ServiceMetaInfo> serviceMetaInfoList = serviceInstances.stream().map(ServiceInstance::getPayload).collect(Collectors.toList());
 
-            registryServiceCache.writeCache(serviceMetaInfoList);
+            registryServiceMultiCache.writeCache(serviceKey, serviceMetaInfoList);
             return serviceMetaInfoList;
         } catch (Exception e) {
             throw new RuntimeException("获取服务列表失败", e);
@@ -145,7 +147,11 @@ public class ZkRegistry implements Registry {
         if (add) {
             CuratorCache curatorCache = CuratorCache.build(client, watchKey);
             curatorCache.start();
-            curatorCache.listenable().addListener(CuratorCacheListener.builder().forDeletes(childData -> registryServiceCache.clearCache()).forChanges((oldNode, node) -> registryServiceCache.clearCache()).build());
+            curatorCache.listenable()
+                    .addListener(CuratorCacheListener.builder()
+                            .forDeletes(childData -> registryServiceMultiCache.clearCache(serviceKey))
+                            .forChanges((oldNode, node) -> registryServiceMultiCache.clearCache(serviceKey))
+                            .build());
         }
     }
 

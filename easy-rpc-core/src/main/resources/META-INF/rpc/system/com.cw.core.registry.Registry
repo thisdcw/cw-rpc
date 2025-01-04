@@ -1,2 +1,3 @@
 etcd=com.cw.core.registry.EtcdRegistry
 zookeeper=com.cw.core.registry.ZkRegistry
+redis=com.cw.core.registry.RedisRegistry

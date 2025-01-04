@@ -31,7 +31,10 @@ public class EtcdRegistry implements Registry {
 
     public final Set<String> localRegisterNodeKeySet = new HashSet<>();
 
+    @Deprecated
     public final RegistryServiceCache registryServiceCache = new RegistryServiceCache();
+
+    public final RegistryServiceMultiCache registryServiceMultiCache = new RegistryServiceMultiCache();
 
     public final Set<String> watchingKeySet = new ConcurrentHashSet<>();
 
@@ -78,7 +81,7 @@ public class EtcdRegistry implements Registry {
         rpcLog.info("服务发现: {}", serviceKey);
         // 优先从缓存获取服务
         // 原教程代码，不支持多个服务同时缓存
-         List<ServiceMetaInfo> cachedServiceMetaInfoList = registryServiceCache.readCache();
+        List<ServiceMetaInfo> cachedServiceMetaInfoList = registryServiceMultiCache.readCache(serviceKey);
         if (cachedServiceMetaInfoList != null) {
             return cachedServiceMetaInfoList;
         }
@@ -105,7 +108,7 @@ public class EtcdRegistry implements Registry {
                     })
                     .collect(Collectors.toList());
             // 写入服务缓存
-             registryServiceCache.writeCache(serviceMetaInfoList);
+            registryServiceMultiCache.writeCache(serviceKey, serviceMetaInfoList);
             // 优化后的代码，支持多个服务同时缓存
             return serviceMetaInfoList;
         } catch (Exception e) {
@@ -172,7 +175,7 @@ public class EtcdRegistry implements Registry {
                         //key删除时触发
                         case DELETE:
                             //清理缓存
-                            registryServiceCache.clearCache();
+                            registryServiceMultiCache.clearCache(serviceKey);
                             break;
                         case PUT:
                         default:
