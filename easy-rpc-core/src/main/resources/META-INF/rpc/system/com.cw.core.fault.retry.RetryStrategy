@@ -1,0 +1,2 @@
+no=com.cw.core.fault.retry.NoRetryStrategy
+fixedInterval=com.cw.core.fault.retry.FixedIntervalRetryStrategy

@@ -1,0 +1,3 @@
+roundRobin=com.cw.core.loadbalancer.RoundRobinLoadBalancer
+random=com.cw.core.loadbalancer.RandomLoadBalancer
+consistenHash=com.cw.core.loadbalancer.ConsistenHashLoadBalancer

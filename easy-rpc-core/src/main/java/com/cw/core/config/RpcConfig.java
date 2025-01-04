@@ -1,5 +1,10 @@
 package com.cw.core.config;
 
+import com.cw.core.fault.retry.RetryStrategyKeys;
+import com.cw.core.fault.tolerant.TolerantStrategyKeys;
+import com.cw.core.loadbalancer.LoadBalancer;
+import com.cw.core.loadbalancer.LoadBalancerKeys;
+import com.cw.core.loadbalancer.RoundRobinLoadBalancer;
 import com.cw.core.serializer.SerializerKeys;
 import lombok.Data;
 
@@ -46,4 +51,19 @@ public class RpcConfig {
      * 注册中心配置
      */
     private RegistryConfig registryConfig = new RegistryConfig();
+
+    /**
+     * 负载均衡器
+     */
+    private String loadBalancer = LoadBalancerKeys.ROUND_ROBIN;
+
+    /**
+     * 重试策略
+     */
+    private String retryStrategy = RetryStrategyKeys.NO;
+
+    /**
+     * 容错策略
+     */
+    private String tolerantStrategy = TolerantStrategyKeys.FAIL_FAST;
 }

@@ -1,0 +1,4 @@
+failBack=com.cw.core.fault.tolerant.FailBackTolerantStrategy
+failFast=com.cw.core.fault.tolerant.FailFastTolerantStrategy
+failOver=com.cw.core.fault.tolerant.FailOverTolerantStrategy
+failSafe=com.cw.core.fault.tolerant.FailSafeTolerantStrategy

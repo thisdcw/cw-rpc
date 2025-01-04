@@ -76,27 +76,37 @@ public class EtcdRegistry implements Registry {
     @Override
     public List<ServiceMetaInfo> serviceDiscovery(String serviceKey) {
         rpcLog.info("服务发现: {}", serviceKey);
-        //优先从缓存中获取服务
-        List<ServiceMetaInfo> serviceMetaInfos = registryServiceCache.readCache();
-        if (serviceMetaInfos != null) {
-            rpcLog.info("查询缓存");
-            return serviceMetaInfos;
+        // 优先从缓存获取服务
+        // 原教程代码，不支持多个服务同时缓存
+         List<ServiceMetaInfo> cachedServiceMetaInfoList = registryServiceCache.readCache();
+        if (cachedServiceMetaInfoList != null) {
+            return cachedServiceMetaInfoList;
         }
-        rpcLog.info("查询注册中心");
+
+        // 前缀搜索，结尾一定要加 '/'
         String searchPrefix = ETCD_ROOT_PATH + serviceKey + "/";
+
         try {
+            // 前缀查询
             GetOption getOption = GetOption.builder().isPrefix(true).build();
-            List<KeyValue> keyValues = kvClient.get(ByteSequence.from(searchPrefix, StandardCharsets.UTF_8), getOption).get().getKvs();
-            List<ServiceMetaInfo> serviceMetaInfoList = keyValues.stream().map(item -> {
-                String value = item.getValue().toString(StandardCharsets.UTF_8);
-                watch(value);
-                return JSONUtil.toBean(value, ServiceMetaInfo.class);
-            }).collect(Collectors.toList());
-
-
-            //写入缓存
-            registryServiceCache.writeCache(serviceMetaInfoList);
-
+            List<KeyValue> keyValues = kvClient.get(
+                            ByteSequence.from(searchPrefix, StandardCharsets.UTF_8),
+                            getOption)
+                    .get()
+                    .getKvs();
+            // 解析服务信息
+            List<ServiceMetaInfo> serviceMetaInfoList = keyValues.stream()
+                    .map(keyValue -> {
+                        String key = keyValue.getKey().toString(StandardCharsets.UTF_8);
+                        // 监听 key 的变化
+                        watch(key);
+                        String value = keyValue.getValue().toString(StandardCharsets.UTF_8);
+                        return JSONUtil.toBean(value, ServiceMetaInfo.class);
+                    })
+                    .collect(Collectors.toList());
+            // 写入服务缓存
+             registryServiceCache.writeCache(serviceMetaInfoList);
+            // 优化后的代码，支持多个服务同时缓存
             return serviceMetaInfoList;
         } catch (Exception e) {
             throw new RuntimeException("获取服务列表失败", e);

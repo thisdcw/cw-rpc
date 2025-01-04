@@ -10,6 +10,9 @@
         <option value="$PROJECT_DIR$/ex-provider/pom.xml" />
         <option value="$PROJECT_DIR$/cw-easy-rpc/pom.xml" />
         <option value="$PROJECT_DIR$/easy-rpc-core/pom.xml" />
+        <option value="$PROJECT_DIR$/cw-rpc-spring-boot-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/example-springboot-consumer/pom.xml" />
+        <option value="$PROJECT_DIR$/example-springboot-provider/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
