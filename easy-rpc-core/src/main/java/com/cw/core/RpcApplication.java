@@ -43,6 +43,7 @@ public class RpcApplication {
         RpcConfig newRpcConfig;
         try {
             newRpcConfig = ConfigUtils.loadConfig(RpcConfig.class, RpcConstant.DEFAULT_CONFIG_PREFIX);
+            log.error("加载成功,使用配置:{}", newRpcConfig);
         } catch (Exception e) {
             log.error("加载失败,使用默认配置");
             newRpcConfig = new RpcConfig();
